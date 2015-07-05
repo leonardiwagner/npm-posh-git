@@ -1,7 +1,7 @@
 {
   "name": "posh-git",
-  "version": "0.0.8",
-  "description": "posh git install",
+  "version": "0.0.9",
+  "description": "posh-git install",
   "main": "index.js",
   "preferGlobal": "true",
   "repository": {
