@@ -1,6 +1,6 @@
 {
-  "name": "npm-posh-git",
-  "version": "0.0.1",
+  "name": "posh-git",
+  "version": "0.0.6",
   "description": "posh git install",
   "main": "index.js",
   "repository": {
@@ -12,11 +12,17 @@
   ],
   "author": "Wagner Leonardi",
   "license": "ISC",
+  "bin": {
+    "posh-git-install": "./index.js"
+  },
   "bugs": {
     "url": "https://github.com/leonardiwagner/npm-posh-git/issues"
   },
+  "files": [
+    "./index.js"
+  ],
   "scripts": {
-    "install": "node index.js",
+    "install": "node index.js"
   },
   "homepage": "https://github.com/leonardiwagner/npm-posh-git",
   "devDependencies": {
