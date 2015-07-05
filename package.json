@@ -1,0 +1,22 @@
+{
+  "name": "npm-posh-git",
+  "version": "0.0.1",
+  "description": "posh git install",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leonardiwagner/npm-posh-git"
+  },
+  "keywords": [
+    "posh-git","posh"
+  ],
+  "author": "Wagner Leonardi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leonardiwagner/npm-posh-git/issues"
+  },
+  "homepage": "https://github.com/leonardiwagner/npm-posh-git",
+  "devDependencies": {
+    "colors": "^1.1.2"
+  }
+}
