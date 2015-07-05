@@ -1,6 +1,6 @@
 {
   "name": "posh-git",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "posh git install",
   "main": "index.js",
   "preferGlobal": "true",
@@ -24,7 +24,7 @@
     "index.js"
   ],
   "scripts": {
-    "postinstall": "node index"
+    "postinstall": "node index -n"
   },
   "homepage": "https://github.com/leonardiwagner/npm-posh-git",
   "dependencies": {
