@@ -1,0 +1,1 @@
+# npm-posh-git-sh
