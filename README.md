@@ -5,7 +5,7 @@ posh-git installation for Linux, Mac and Windows through NPM.
 
 ### Installation:
 1. Run **```npm install -g posh-git```**
-2. If you used sudo to install (sudo npm install -g posh-git), run after ```posh-git-install``` to complete installation into your actual user.
+2. If you used sudo to install (sudo npm install -g posh-git), run after ```posh-git-install``` without sudo to complete installation into your actual user.
 
 ### Known Issues:
 This is a new project, it's currently working only on Linux, I'm working for Windows and Mac installation too. Feel free to open an issue to report an installation fail, bugs or improvements.
