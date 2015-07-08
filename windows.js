@@ -54,3 +54,19 @@ function isRunningAsAdministrator(callback) {
         }
     });
 }
+
+module.exports.downloadContent = function(){
+
+    return {
+        status: "OK",
+        errorMessage: ""
+    }
+};
+
+module.exports.install = function(){
+
+    return {
+        status: "OK",
+        errorMessage: ""
+    }
+};
