@@ -1,7 +1,20 @@
 #!/usr/bin/env node
+//var os = require('os');
 var exec = require('child_process').exec;
 var colors = require('colors');
 var program = require('commander');
+
+if (process.platform == "win32") {
+    
+}else if (process.platform == "linux") {
+    
+}else if (process.platform == "darwin") { // osx
+
+} else {
+    //TODO: not found OS, in the future ask for user insert manually
+}
+
+
 
 var poshFileDestination = "~/posh-git.sh";
 var profileFile = "~/.bashrc";
