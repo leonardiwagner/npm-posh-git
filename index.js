@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 //var os = require('os');
-var exec = require('child_process').exec;
-var colors = require('colors');
+
 var program = require('commander');
 
 var windowsInstaller = require("./windows");
-var unixInstaller = require("./unix");
+var unixInstaller = require("./unix")();
+var osxInstaller = require("./osx")();
 
 var installer;
 if (process.platform == "win32") {
@@ -13,10 +13,13 @@ if (process.platform == "win32") {
 }else if (process.platform == "linux") {
   installer = unixInstaller;
 }else if (process.platform == "darwin") { // osx
-  installer = unixInstaller;
+  installer = osxInstaller;
 } else {
     //TODO: not found OS, in the future ask for user insert manually
 }
+
+console.log(installer);
+
 
 program
   .version('0.0.1')
@@ -28,7 +31,7 @@ if (program.new){
 }
 
 console.log("> Downloading content");
-var donwloadContentResult = installer.donwloadContent();
+var downloadContentResult = installer.downloadContent();
 if(downloadContentResult.status === "OK"){
   console.log("> Downloading content [OK]");
 }else{

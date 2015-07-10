@@ -1,62 +1,30 @@
-var exec = require('child_process').exec;
+/*
+module.exports = function(){
+    var poshFileDestination = "$HOME/posh-git.sh";
+var profileFile = "$HOME/.bashrc";
 
-var poshGitRepository = "https://github.com/dahlbyk/posh-git";
-
-//todo: check if psget is installed
-
-exec("git --version", function (error, stdout, stderr) {
-    if (error) console.log("error"); // TODO
-    else {
-        //OK GIT is INSTALLED
-    }
-});
-
-//downloadGitRepository();
-executePoshGitInstall();
-
-function downloadGitRepository() {
-    exec("git clone " + poshGitRepository, function (error, stdout, stderr) {
-        if (error) console.log("error"); // TODO
-        else {
-            //OK GIT is INSTALLED
-            console.log(stdout);
-        }
-    });
+function downloadFile(){
+  var poshFileUrl = "https://raw.githubusercontent.com/lyze/posh-git-sh/master/git-prompt.sh";
+  var shDownloadFile = 'curl "' + poshFileUrl + '" -o "' + poshFileDestination + '"';
+  console.log(shDownloadFile);
+  exec(shDownloadFile)
 }
 
-function executePoshGitInstall() {
-    // exec("Powershell.exe -executionpolicy remotesigned -File posh-git/install.ps1", function (error, stdout, stderr) {
-    exec('powershell -Command "Get-ExecutionPolicy"' , function (error, stdout, stderr) {
-        console.log("entro");
-        if (error) console.log(error); // TODO
-        else {
-            stdout = stdout.trim().toLowerCase();
-            if (stdout == "restricted") {
-                //TODO: needs to    
-            }
-        }
-    });
-    console.log("saiu")
+function install(){
+  var breakLines = "'%s\\n%s\\n'";
+  var sq = "'\\\''"; //single quote
+
+  var contentToWriteIntoProfile = breakLines + " 'source " + poshFileDestination + "' " +
+                                               " 'PROMPT_COMMAND='\\''__git_ps1 \"\\u@\\h:\\w\" \"\\\\\\$ \";'\\''$PROMPT_COMMAND'";
+
+  var shWritePoshIntoProfile = "printf " + contentToWriteIntoProfile + " >> " + profileFile;
+
+  exec(shWritePoshIntoProfile);
 }
 
-function isRunningAsAdministrator(callback) {
-    var checkScript = "$user = [Security.Principal.WindowsIdentity]::GetCurrent();    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)";
-    exec('powershell -Command "' + checkScript + '"', function (error, stdout, stderr) {
-        console.log("entro");
-        if (error) console.log(error); // TODO
-        else {
-            stdout = stdout.trim().toLowerCase();
-            if (stdout == "true") {
-                callback(true);
-            } else {
-                callback(false);
-            }
-        }
-    });
-}
-
+module.exports.UnixInstaller = function()
 module.exports.downloadContent = function(){
-
+    console.log("a");
     return {
         status: "OK",
         errorMessage: ""
@@ -70,3 +38,5 @@ module.exports.install = function(){
         errorMessage: ""
     }
 };
+}
+*/
