@@ -7,6 +7,8 @@ var windowsInstaller = require("./windows");
 var unixInstaller = require("./unix")();
 var osxInstaller = require("./osx")();
 
+var version = "0.0.1";
+
 var installer;
 if (process.platform == "win32") {
   installer = windowsInstaller;
@@ -15,16 +17,16 @@ if (process.platform == "win32") {
 }else if (process.platform == "darwin") { // osx
   installer = osxInstaller;
 } else {
-    //TODO: not found OS, in the future ask for user insert manually
+  
 }
+
+
 
 console.log(installer);
 
-
-program
-  .version('0.0.1')
-  .option('-n, --new', 'New installation')
-  .parse(process.argv);
+program.version(version)
+       .option('-n, --new', 'New installation')
+       .parse(process.argv);
 
 if (program.new){
   console.log("\nCurrently in beta, please report some issue on github\n" + "https://github.com/leonardiwagner/npm-posh-git\n".blue.underline);
