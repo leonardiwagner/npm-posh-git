@@ -2,7 +2,7 @@
   "name": "posh-git",
   "version": "0.0.9",
   "description": "posh-git install",
-  "main": "index.js",
+  "main": "app.js",
   "preferGlobal": "true",
   "repository": {
     "type": "git",
@@ -18,16 +18,17 @@
     "url": "https://github.com/leonardiwagner/npm-posh-git/issues"
   },
   "bin": {
-    "posh-git-install": "index.js"
+    "posh-git-install": "app.js"
   },
   "files": [
-    "index.js"
+    "app.js"
   ],
   "scripts": {
-    "postinstall": "node index -n"
+    "postinstall": "node app -n"
   },
   "homepage": "https://github.com/leonardiwagner/npm-posh-git",
   "dependencies": {
+    "bluebird": "^2.10.1",
     "colors": "^1.1.2",
     "commander": "^2.8.1"
   }

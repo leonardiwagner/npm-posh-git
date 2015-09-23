@@ -1,0 +1,5 @@
+npmposhgit:
+  image: node:4
+  working_dir: /npm-posh-git
+  volumes:
+    - .:/npm-posh-git
