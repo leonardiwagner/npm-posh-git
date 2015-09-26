@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-var Ople = module.exports = function() {
+module.exports = function() {
 	var exec = require('child_process').exec;
 	var spawn = require('child_process').spawn;
 	var Promise = require('bluebird')
-	var colors = require('colors')
+	var logger = require('./logger')
 
 	var that = this
 	var userName
@@ -13,7 +13,7 @@ var Ople = module.exports = function() {
 
 	var execute = function(command){
 		return new Promise(function(resolve, reject){
-				console.log(command)
+				//console.log(command)
 				exec(command, function(error, stdout, stderr) {
 					if (error == null) resolve(stdout)
 					else reject(error, stderr )
@@ -21,72 +21,48 @@ var Ople = module.exports = function() {
 		})
 	}
 
-	var executeBash = function(command){
-		return new Promise(function(resolve, reject){
-			console.log(command)
-			var ls = spawn('source .bashrc')
-
-			ls.stdout.on('data', function (data) {
-				console.log('stdout: ' + data);
-				resolve()
-			});
-
-			ls.stderr.on('data', function (data) {
-				console.log('stderr: ' + data);
-				resolve()
-			});
-
-			ls.on('close', function (code) {
-				console.log('child process exited with code ' + code);
-				resolve()
-			});
-
-		})
-	}
-
 	var getUserName = function() {
 		return new Promise(function(resolve){
-			console.log("[GET USER NAME] whats your name?")
+			logger.info("user", "checking your user name")
 			execute('whoami').then(function(currentUser){
-				console.log("[GET USER NAME] hm.. " + currentUser + "?")
+				currentUser = currentUser.trim()
+				logger.info("user", "hm.. " + currentUser + "?")
 				if(currentUser == 'root'){
-					console.log("[GET USER NAME] ROOT SERIOUSLY?!?! OMG! If you are using sudo to install global npm packages, STAHP DOING IT, IT'S BAD! We'll try to find your actual user name")
+					logger.info("user", "omg, root? I'll check if you are using sudo. It's not recommended to install npm global package with sudo.")
 					execute('logname').then(function(actualUser) {
-						console.log("[GET USER NAME] ohhh.. your real username is " + actualUser + ". How do I know that? MAGIC mein freund!")
-						return resolve(actualUser.trim())
+						actualUser = actualUser.trim()
+						logger.info("user", "oww.. your real username is " + actualUser + ", so I'll install posh-git there.")
+						return resolve(actualUser)
 					}).catch(function(){
-						console.log("[GET USER NAME] OMGOSH, we are installing it at root, I hope that's what you really want.. lets go")
-						return resolve(currentUser.trim())
+						logger.info("user", "ok, root so. I hipo that's what you really want.. lets go")
+						return resolve(currentUser)
 					})
 				}else{
-					console.log("[GET USER NAME] yeah! " + currentUser + " seems to be a nice user name, nice one!")
-					return resolve(currentUser.trim())
+					logger.info("user", "hello " + currentUser + ", nice username.")
+					return resolve(currentUser)
 				}
 			})
 		})
 	}
 
-
-
 	var downloadPoshGitFile = function()  {
-		console.log("[DOWNLOAD] we're now downloading posh-git file, wait a sec")
+		logger.info("donwload", "downloading posh-git file, wait a sec")
 
 		return new Promise(function(resolve, reject){
 			var poshFileUrl = "https://raw.githubusercontent.com/lyze/posh-git-sh/master/git-prompt.sh"
 			var shDownloadFile = 'wget -O ' + that.poshFileDestination + ' ' + poshFileUrl
 			return execute(shDownloadFile).then(function(){
+				logger.info("donwload", "downloaded and saved at: " + that.poshFileDestination)
 				resolve(that.poshFileDestination)
 			}).catch(function(){
-				console.log("[FATAL ERROR][DOWNLOAD POSH GIT FILE] we could not download and save posh git file, pls check:")
-				console.log("- are you really connected on internet?")
-				console.log("- can we access " + that.poshFileDestination + " to save posh-git file there?")
+				logger.error("donwload", "could not download and save posh git file, pls check your internet connection and if I can access: " + that.poshFileDestination)
 				reject()
 			})
 		})
 	}
 
 	var putPoshGitFileIntoBash = function()  {
-		console.log("[INSTALL] ok, we'll put a reference of the downloaded file at your bash file")
+		logger.info("install", "placing posh-git file into your configuration file: " + that.profileFile)
 
 		var breakLines = "'%s\\n%s\\n'"
 		var sq = "'\\\''" //single quote
@@ -97,13 +73,10 @@ var Ople = module.exports = function() {
 
 		return new Promise(function(resolve, reject){
 			execute(shWritePoshIntoProfile).then(function(){
+				logger.info("install", "done")
 				resolve()
 			}).catch(function(){
-				console.log("[FATAL ERROR][INSTALL POSH GIT INTO PROFILE] damn, we could not install :( , pls check:")
-				console.log("- do we have access to write at: " + that.profileFile + "?")
-				console.log("- is " + that.profileFile + " your real bash file? If not, pls add this line at bottom of your bash file:")
-				console.log("\n " +  contentToWriteIntoProfile)
-				console.log("\n can you make us a favor? pls report this error at:  , don't forget to tell us your OS and bash file location! tks")
+				logger.error("install", "could not write at your configuration file. Please check if I can write at: "  + that.profileFile + ". If it isn't the right configuration file, please add these lines at yours: \n" +  contentToWriteIntoProfile)
 				reject()
 			})
 		})
@@ -111,22 +84,21 @@ var Ople = module.exports = function() {
 
 	var reloadBash = function(){
 		return new Promise(function(resolve){
-			execute("source ~/.bashrc").then(function(){
-				console.log("[FINISH] open a git folder, and be happy :)")
+			execute(". ~/.profile").then(function(){
+				logger.info("reload", "ok, configuration file reloaded")
 				resolve()
 			}).catch(function(a, b){
-				console.log("[OMG FATAL ER..JUST A JOKE IT'S ALL OK] reopen your terminal and access a git folder to see MAGIC")
+				logger.info("reload", "please reopen your terminal to see posh-git")
 			})
 		})
 	}
 
 	var install = function(){
-		console.log(that)
-		getUserName().then(function(userNamex){
-			that.userName = userNamex
+		getUserName().then(function(userNameResult){
+			that.userName = userNameResult
 			that.userDirectory = "~/" + that.userName
 			that.poshFileDestination = "~/posh-git.sh"
-			that.profileFile = "~/.bashrc"
+			that.profileFile = "~/.profile"
 			return downloadPoshGitFile()
 		}).then(function(){
 			return putPoshGitFileIntoBash()
