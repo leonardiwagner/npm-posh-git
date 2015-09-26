@@ -1,8 +1,6 @@
 # npm-posh-git
 posh-git is an essential CLI tool for every git project! Besides displaying branch name, it also shows file additions, deletions and modifications, making commiting and merging very easy. This project is the single-line installation via NPM (node packge manager) for Linux, Windows and OS X.
 
-installation for Linux, Mac and Windows via npm!
-
 ![posh-git example](https://raw.githubusercontent.com/leonardiwagner/npm-posh-git/dev/posh-git-demo.gif)
 
 ### Installation:
